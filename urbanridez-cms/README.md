@@ -1,6 +1,6 @@
 # urbanridez-cms
 
-This project was created using create-payload-app using the ts-blank template.
+This project was created using create-payload-app using the ts-blog template.
 
 ## How to Use
 

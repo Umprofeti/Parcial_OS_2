@@ -5,7 +5,7 @@ services:
   payload:
     image: node:18-alpine
     ports:
-      - "3000:3000"
+      - "3040:3040"
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
@@ -15,9 +15,9 @@ services:
       - mongo
     environment:
       MONGODB_URI: mongodb://mongo:27017/payload
-      PORT: 3000
+      PORT: 3040
       NODE_ENV: development
-      PAYLOAD_SECRET: TESTING
+      PAYLOAD_SECRET: 765c25afcc2617e84e33bf4b
 
   mongo:
     image: mongo:latest
