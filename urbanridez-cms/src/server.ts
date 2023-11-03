@@ -18,7 +18,7 @@ const start = async (): Promise<void> => {
     },
   })
 
-  app.listen(process.env.PAYLOAD_PORT)
+  app.listen(3040)
 }
 
 start()
