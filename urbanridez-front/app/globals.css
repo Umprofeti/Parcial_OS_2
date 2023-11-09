@@ -1,5 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap');
 
+body{
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.contenedorBanner{
+    height: 32rem;
+}
+@media (max-width: 768px) {
+    .contenedorBanner{
+        height: 20rem;
+    }   
+}
+
+.textShadowBanner{
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+}
+
+.transicionDeEntrada{
+    animation: transicionEntrada .5s  none;
+} 
+.transicionDeSalida{
+    animation: transicionSalida 1s none;
+
+} 
+
+
+@keyframes transicionEntrada {
+    0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+}
+@keyframes transicionSalida {
+    0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

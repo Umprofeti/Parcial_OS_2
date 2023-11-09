@@ -3,9 +3,9 @@ import React, {useState} from 'react'
 import Link from 'next/link'
 
 export default function NavBar() {
-    const [abrirMenu, cambiarAbrirMenu] = useState(true);
+    const [abrirMenu, cambiarAbrirMenu] = useState(false);
   return (
-    <nav className='flex bg-zinc-900 p-5 flex-wrap fixed w-full top-0 z-10'>
+    <nav className='flex bg-zinc-950 p-5 flex-wrap fixed w-full top-0 z-50'>
         <div className='text-white flex-1'>
             <Link className='uppercase font-bol text-xl tracking-tight text-red-500:hover' href={'/'}>Urbanridez</Link>
         </div>

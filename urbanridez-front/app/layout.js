@@ -1,5 +1,7 @@
 import './globals.css';
 import NavBar from '@/components/NavBar';
+import Footer from '../components/Footer';
+import { ApolloWrapper } from '@/src/img/context/dataContext';
 
 
 export const metadata = {
@@ -10,13 +12,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className='font-sans'>
-        <NavBar/>
-        <div>
-          {children}
-        </div>
-        <div className='h-screen'>a</div>
-        </body>
+      <body>
+        <ApolloWrapper >
+          <NavBar/>
+            {children}
+          <Footer/>
+        </ApolloWrapper>
+      </body>
     </html>
   )
 }

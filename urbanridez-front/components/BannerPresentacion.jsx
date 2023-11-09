@@ -6,7 +6,7 @@ export default function BannerPresentacion() {
   return (
   <>
     <div className='relative h-96 bg-slate-600 overflow-hidden'>
-      <Image src={mustang} width={1280} height={720} alt='mustang banner' className='absolute inset-0 object-cover w-full h-full ' />
+      <Image priority="eager" src={mustang} width={1280} height={720} alt='mustang banner' className='absolute inset-0 object-cover w-full h-full ' />
       <div className='bg-black bg-opacity-50 absolute inset-0 flex items-center justify-center'>
         <span className='text-white text-xl sm:text-2xl md:text-4xl   font-bold uppercase'>Urbanridez</span>
       </div>
@@ -17,7 +17,7 @@ export default function BannerPresentacion() {
         </div>
         <div className='p-3 h-auto bg-black items-center text-white'>
           <h2 className='text-xl text-center p-3 font-bold '>Nosotros</h2>
-          <p className='text-center pb-5 px-10'>Desde 2019, UrbanRidez ha sido una de las principales Concesionaria de autos en Ciudad de Panamá . En nuestra concesionaria, estamos comprometidos con ofrecer servicio de calidad a todos nuestros clientes. Nuestras opciones de financiación facilitan adquirir el vehículo de sus sueños.</p>
+          <p className='text-center pb-5 px-5 lg:px-40'>Desde 2019, UrbanRidez ha sido una de las principales Concesionaria de autos en Ciudad de Panamá . En nuestra concesionaria, estamos comprometidos con ofrecer servicio de calidad a todos nuestros clientes. Nuestras opciones de financiación facilitan adquirir el vehículo de sus sueños.</p>
         </div>
     </div>
   </>

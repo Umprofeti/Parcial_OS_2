@@ -1,11 +1,10 @@
 'use client'
 import React from 'react'
-import imagen from '../src/img/mustang01.jpg'
-import imagen2 from '../src/img/hyndai01.jpg'
-import imagen3 from '../src/img/berat-baki.jpg'
-import NuevoCatalogo from './NuevoCatalogo';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import { gql } from '@apollo/client'
+import AutosCards from './AutosCards'
 
 
 const responsive = {
@@ -27,24 +26,68 @@ const responsive = {
   }
 };
 
+const anio =" 2023";
+
+const query = gql`
+query{
+  Posts(where:{tags:{equals:"654af4358988a779d5fc5424"}}){
+    docs{
+      id
+      title
+      price
+			tags{
+        id
+        name
+      }
+      category{
+        id
+        name
+      }
+      ImagenCarro{
+        url
+        width
+        height
+        filename
+        sizes{
+          card{
+            width
+            height
+          }
+          tablet{
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
 export default function SeccioNuevoCatalogo() {
-
-  const titulo = "BMW M4 competition 2023";
-  const precio = "105,345";
-
+  const { data,error } = useSuspenseQuery(query);
+  if(error){ return(<p>Error</p>)}
+  const formateoDinero=(valor)=>{
+    const opciones = {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    };
+    return new Intl.NumberFormat('en-US', opciones).format(valor);
+  }
 
   return (
-    <div className='mx-auto h-auto w-full bg-red-700 text-white text-center py-5'>
+    <div className='mx-auto h-auto w-full bg-red-700 text-white text-center pt-5 pb-10'>
         <h2 className='text-2xl py-2 font-bold'>Nuevos catalogos</h2>
         <span>El mejor catalogo de autos en Panamá</span>
-        <Carousel responsive={responsive}>
-          {/* Aquí se usará map para retornar el componente "<NuevoCatalogo/>" */}
-          <NuevoCatalogo imagen={imagen} titulo={titulo} precio={precio}/>
-          <NuevoCatalogo imagen={imagen2} titulo={titulo} precio={precio}/>
-          <NuevoCatalogo imagen={imagen3} titulo={titulo} precio={precio}/>
-          <NuevoCatalogo imagen={imagen} titulo={titulo} precio={precio}/>
-          <NuevoCatalogo imagen={imagen2} titulo={titulo} precio={precio}/>
-          <NuevoCatalogo imagen={imagen3} titulo={titulo} precio={precio}/>
+        <Carousel infinite={true} responsive={responsive} >
+            {(data.Posts.docs).map((post)=>{    
+              const precioFormateado = formateoDinero(post.price);
+              return(
+                <AutosCards imagen={post.ImagenCarro.url} titulo={post.title} precio={precioFormateado} anio={anio} catalogo={false} alt={post.ImagenCarro.filename} key={post.id}/>
+              );
+            })}
         </Carousel>
     </div>
   )
