@@ -66,6 +66,16 @@ const Posts: CollectionConfig = {
       name: 'price',
       type: 'number',
       required: true
+    },
+    {
+      name: 'Year',
+      type:'number',
+      required: true
+    },
+    {
+      name: 'Stock',
+      type: 'number',
+      required: true
     }
   ],
 }

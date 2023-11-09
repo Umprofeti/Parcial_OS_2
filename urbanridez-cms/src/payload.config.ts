@@ -3,6 +3,7 @@ import path from 'path';
 import Categories from './collections/Categorias';
 import Posts from './collections/Posts';
 import Tags from './collections/Tags';
+import Compras from './collections/Compras';
 import Users from './collections/Users';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { slateEditor } from '@payloadcms/richtext-slate';
@@ -27,8 +28,10 @@ export default buildConfig({
     Tags,
     Users,
     Media,
-    Contactos
+    Contactos,
+    Compras
   ],
+  cors: '*',
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts')
   },
