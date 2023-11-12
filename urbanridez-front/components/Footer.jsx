@@ -3,7 +3,7 @@ import React from 'react'
 export default function Footer() {
   return (
     <>
-    <div className='w-full h-52 bg-zinc-900 grid grid-cols-1 sm:grid-cols-2 text-white px-8 border-t border-white'>
+    <div className='w-full h-52 bg-zinc-900 grid grid-cols-1 sm:grid-cols-2 text-white px-8 border-t border-white pb-5'>
         <div className='text-center mt-5 sm:mt-11'>
             <span className='uppercase text-xl sm:text-4xl font-semibold'>urbanridez</span>
             <div className='flex fill-white mt-5 justify-center'>
@@ -23,7 +23,7 @@ export default function Footer() {
             <span className='text-lg block'>Ws: + (507) 6677-899</span>
         </div>
     </div>
-    <div className='w-full h-8 bg-zinc-900 flex items-center justify-center border-t border-white'>
+    <div className='w-full h-8 bg-zinc-900 text-center border-t border-white'>
         <p className='text-white '>&copy;URBANRIDEZ 2023. Todos los derechos reservados.</p>
     </div>
     </>

@@ -35,6 +35,8 @@ query{
       id
       title
       price
+      content
+      Year
 			tags{
         id
         name
@@ -67,28 +69,18 @@ query{
 export default function SeccioNuevoCatalogo() {
   const { data,error } = useSuspenseQuery(query);
   if(error){ return(<p>Error</p>)}
-  const formateoDinero=(valor)=>{
-    const opciones = {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    };
-    return new Intl.NumberFormat('en-US', opciones).format(valor);
-  }
 
   return (
     <div className='mx-auto h-auto w-full bg-red-700 text-white text-center pt-5 pb-10'>
         <h2 className='text-2xl py-2 font-bold'>Nuevos catalogos</h2>
         <span>El mejor catalogo de autos en Panamá</span>
-        <Carousel infinite={true} responsive={responsive} >
-            {(data.Posts.docs).map((post)=>{    
-              const precioFormateado = formateoDinero(post.price);
-              return(
-                <AutosCards imagen={post.ImagenCarro.url} titulo={post.title} precio={precioFormateado} anio={anio} catalogo={false} alt={post.ImagenCarro.filename} key={post.id}/>
-              );
-            })}
-        </Carousel>
+          <Carousel infinite={true} responsive={responsive} className='z-10'>
+              {(data.Posts.docs).map((post)=>{    
+                return(
+                  <AutosCards key={post.id} post={post} catalogo={false}/>
+                );
+              })}
+          </Carousel>
     </div>
   )
 }

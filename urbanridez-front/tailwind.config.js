@@ -9,7 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: {
+        'bg-colorNav': 'rgba(255, 0, 0, 0.5)', // Reemplaza #ff0000 con tu color de fondo personalizado en formato hexadecimal
+      }
+    },
   },
   plugins: [],
 }

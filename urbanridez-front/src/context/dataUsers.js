@@ -5,8 +5,12 @@ import {ApolloNextAppProvider, NextSSRApolloClient, NextSSRInMemoryCache, SSRMul
 
 function makeClient (){
   const httpLink = new HttpLink({
-    uri:'http://localhost:3040/api/graphql'
+    uri:'http://localhost:3040/api/Users',
+    headers:{
+      Authorization: 'Users API-Key 03068e56-cf08-4ae8-87d2-efb7953ff3e7'
+    }
   });
+  
   return new NextSSRApolloClient({
     cache:new NextSSRInMemoryCache(),
     link: typeof window === 'undefined' ? ApolloLink.from([

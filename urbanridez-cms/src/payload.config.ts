@@ -32,6 +32,7 @@ export default buildConfig({
     Compras
   ],
   cors: '*',
+  csrf:['localhost'],
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts')
   },

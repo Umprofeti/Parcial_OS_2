@@ -1,0 +1,19 @@
+.cardEnterInfo{
+    transition: background .3s ease;
+    background-color: transparent;
+    
+}
+.cardEnterInfo:hover{
+    background-color: rgba(0, 0, 0, 0.8); /* Color de fondo con transparencia */
+}
+.glass-container {
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    color: #fff; /* Color del texto */
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+  }
+
+  .ulContenedorInfo{
+    background-color: rgba(0, 0, 0, 0.4); /* Color de fondo con transparencia */
+  }

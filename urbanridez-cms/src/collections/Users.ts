@@ -2,7 +2,10 @@ import { CollectionConfig } from 'payload/types';
 
 const Users: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    useAPIKey:true,
+    depth:0
+  },
   admin: {
     useAsTitle: 'email',
   },

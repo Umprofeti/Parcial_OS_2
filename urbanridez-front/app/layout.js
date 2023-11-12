@@ -1,7 +1,8 @@
 import './globals.css';
+import '@/src/css/estilosComponentes.css';
 import NavBar from '@/components/NavBar';
 import Footer from '../components/Footer';
-import { ApolloWrapper } from '@/src/img/context/dataContext';
+import { ApolloWrapper } from '@/src/context/dataContext';
 
 
 export const metadata = {
