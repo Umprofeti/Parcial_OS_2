@@ -54,9 +54,9 @@ export default function CatalogoPage() {
     <>
       <div>
         <div className='relative contenedorBanner bg-zinc-900 overflow-hidden'>
-          <Image priority src={data.Posts.docs[8].ImagenCarro.url } width={1280} height={720} alt='mustang banner' className={`absolute inset-0 object-cover object-left mt-10 w-full h-full  `} />
+          <Image priority src={data.Posts.docs[0].ImagenCarro.url } width={1280} height={720} alt='mustang banner' className={`absolute inset-0 object-cover object-left mt-10 w-full h-full  `} />
           <div className=' absolute inset-0 flex '>
-          <span className='text-neutral-50 textShadowBanner text-xl sm:text-2xl md:text-4xl font-bold uppercase mt-32 ml-10 transition-opacity duration-500'>{data.Posts.docs[8].title}</span>
+          <span className='text-neutral-50 textShadowBanner text-xl sm:text-2xl md:text-4xl font-bold uppercase mt-32 ml-10 transition-opacity duration-500'>{data.Posts.docs[0].title}</span>
           </div>
         </div>
       </div>

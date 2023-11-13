@@ -2,54 +2,39 @@
 import React, { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client';
 import Image from 'next/image';
+import useSWR from 'swr';
 
+
+/* 
+ ! Insertar la fecha: createdAt: "2023-11-12T21:04:25.871Z"- Fecha en formato ISO 8601
+*/
 const ADD_SHOP = gql`
   mutation AddShop($Name: String!, $Email: String!, $Car: String!) {
-    createCompra(data: {Name: $Name, Email: $Email, Car: $Car, status: in_process}) {
-      id
+    createCompra(data: {Name: $Name, Email: $Email, status: in_process, Car: $Car}, draft: true) {
       Name
       Email
-      Car {
-        id
-        title
-      }
       status
+      Car{
+        id:id
+      }
     }
   }
 `;
 
-const LOGIN_USERS = gql`
-  mutation{
-    loginUser(email: "ericsoto2104@gmail.com", password: "cy6rlyr3vr"){
-      user{
-        name
-      }
-    }
-  }
-`;
+
 
 
 export default function ReservarFormulario({cambiarVisibilidadFormulario, visibilidadFormulario, disponibilidad, datoAuto}) {
   
   
-  // useEffect(async()=>{
-  //   await fetch('http://localhost:3040/api/users', {
-  //     headers:{
-  //       Authorization: 'Users API-Key 03068e56-cf08-4ae8-87d2-efb7953ff3e7'
-  //     }
-  //   })
-  // },[])
-
   
   const [nombreUsuario, cambiarNombreUsuario]= useState("");
   const [apellidoUsuario, cambiarApellidoUsuario]= useState("");
   const [correoUsuario, cambiarCorreoUsuario]= useState("");
   const idAutoEnviar = datoAuto.idpost;
   const status = "in_process";
-  const [loginUsers, { data: dataUsuario, loading:loadingUsuario, error:errorUsuario }] = useMutation(LOGIN_USERS);
   const [addShop, { data, loading, error }] = useMutation(ADD_SHOP);
   
-  console.log(dataUsuario)
 
   // console.log(datoAuto.idpost)
 
@@ -63,12 +48,9 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
       cambiarCorreoUsuario(e.target.value)
     }
   }
-
   const handleSubmit = (e)=>{
-    console.log("a")
     e.preventDefault();
     let nombreCompleto = nombreUsuario+" "+apellidoUsuario
-    loginUsers()
     addShop({variables:{
       Name: nombreCompleto,
       Email: correoUsuario,

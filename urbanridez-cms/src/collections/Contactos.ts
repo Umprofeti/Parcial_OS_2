@@ -8,6 +8,7 @@ const Contactos: CollectionConfig = {
     },
     access: {
         read: () => true,
+        create: () =>  true
     },
     fields: [
         {

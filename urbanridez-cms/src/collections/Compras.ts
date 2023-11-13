@@ -8,6 +8,7 @@ const Compras :CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: () => true
   },
   fields: [
     {
@@ -23,7 +24,8 @@ const Compras :CollectionConfig = {
     {
       name: 'Car',
       type: 'relationship',
-      relationTo: 'posts'
+      relationTo: 'posts',
+      hasMany: false,
     },
     {
       name: 'status',

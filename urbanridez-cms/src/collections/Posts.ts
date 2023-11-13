@@ -57,6 +57,12 @@ const Posts: CollectionConfig = {
       }
     },
     {
+      name: "Carrusel",
+      type: 'relationship',
+      relationTo: "media",
+      hasMany: true
+    },
+    {
       name: 'ImagenCarro',
       type: 'upload',
       relationTo: 'media',

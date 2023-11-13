@@ -7,7 +7,6 @@ import Image from 'next/image'
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ReservarFormulario from '@/components/ReservarFormulario'
-import { ApolloWrapper } from '@/src/context/dataUsers'
 
 function cargarItemCarro (id){
   const queryReserva = gql`
@@ -68,8 +67,13 @@ const responsive = {
 
 // }
 
+
+
 export default function ReservarPage() {
 
+  /* Consulta para setear el header en la petición */
+  
+  
   const {id} = useParams()
   const { data, error } = useSuspenseQuery(cargarItemCarro(id));
   const [visibilidadFormulario, cambiarVisibilidadFormulario] = useState(false);
@@ -145,15 +149,11 @@ return (
         </div>
       </div>
 
-      <ApolloWrapper>
-        <ReservarFormulario  
+      <ReservarFormulario  
         cambiarVisibilidadFormulario={cambiarVisibilidadFormulario} 
         visibilidadFormulario={visibilidadFormulario}
         datoAuto={datosCarro[0]}
         />
-      </ApolloWrapper>
-
-      
     </div>
   )
 }
