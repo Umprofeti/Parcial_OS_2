@@ -7,6 +7,7 @@ import { gql } from '@apollo/client'
 import AutosCards from './AutosCards'
 
 
+
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -26,11 +27,9 @@ const responsive = {
   }
 };
 
-const anio =" 2023";
-
 const query = gql`
 query{
-  Posts(where:{tags:{equals:"654af4358988a779d5fc5424"}}){
+  Posts(where:{tags:{equals:"654af4358988a779d5fc5424"}}, limit:100){
     docs{
       id
       title
@@ -74,6 +73,8 @@ export default function SeccioNuevoCatalogo() {
     <div className='mx-auto h-auto w-full bg-red-700 text-white text-center pt-5 pb-10'>
         <h2 className='text-2xl py-2 font-bold'>Nuevos catalogos</h2>
         <span>El mejor catalogo de autos en Panamá</span>
+
+
           <Carousel infinite={true} responsive={responsive} className='z-10'>
               {(data.Posts.docs).map((post)=>{    
                 return(

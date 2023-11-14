@@ -21,7 +21,6 @@ export default function AutosCards({post, catalogo}) {
   const precioFormateado = formateoDinero(post.price);
 
   const normal =catalogo;
-  // console.log(post.content[0].children[0].children[0].text)
   return (
     <>{normal?
         <div className='bg-red-600 mx-6 py-3 rounded relative'>
@@ -42,10 +41,11 @@ export default function AutosCards({post, catalogo}) {
             <h3 className='mt-7 text-xl font-semibold'>Información extra del vehiculo</h3>
             <span className='text-lg font-bold'>Caracteristicas</span>
             <ul className='uppercase text-left px-4 text-sm mt-3'>
-              <li className='py-2 pt-4'>{post.content[0].children[0].children[0].text}</li>
-              <li className='py-2 pt-4'>{post.content[0].children[1].children[0].text}</li>
-              <li className='py-2 pt-4'>{post.content[0].children[2].children[0].text}</li>
-              <li className='py-2 pt-4'>{post.content[0].children[3].children[0].text}</li>
+              {post.content[0].children.map((contenido)=>{
+                return contenido.children.map((contenidoLi,index)=>{
+                  return(<li key={`liInformacion-${index}`} className='py-2 pt-4'>{contenidoLi.text}</li>)
+                })
+              })}
             </ul>
           </div>
           :""
@@ -54,9 +54,9 @@ export default function AutosCards({post, catalogo}) {
       :
       <div className='mx-5 bg-black py-6 mt-4 rounded relative'>
           <Image onMouseOver={()=>{CardInfoExtra()}} src={post.ImagenCarro.url} width={640 } height={240} alt={post.ImagenCarro.filename} className='w-4/5 mx-auto mt-2 aspect-video rounded mb-5' />
-          <Link href={'/'} className='uppercase text-md sm:text-lg underline font-semibold'>{post.title}</Link>
+          <Link href={`/reservar/${post.id}`} className='uppercase text-md sm:text-lg underline font-semibold'>{post.title}</Link>
           <span className='uppercase block py-3'>{precioFormateado}</span>
-          <button  className='py-3 bg-red-700 px-2 font-semibold rounded-lg'>Reservar para compra</button>
+          <Link href={`/reservar/${post.id}`} className='py-3 bg-red-700 px-2 font-semibold rounded-lg'>Reservar para compra</Link>
           <button onClick={()=>{CardInfoExtra()}} className='btnInfoExtra mx-auto mt-3 block sm:hidden'>Ver información extra</button>
 
           {visibilidadInfoExtra ? 
@@ -65,10 +65,11 @@ export default function AutosCards({post, catalogo}) {
             <span className='text-lg font-bold'>Caracteristicas</span>
             <ul className='uppercase text-left px-4 text-sm mt-3'>
             <ul className='uppercase text-left px-4 text-sm mt-3'>
-              <li className='py-3 pl-3 '>{post.content[0].children[0].children[0].text}</li>
-              <li className='py-3 pl-3 '>{post.content[0].children[1].children[0].text}</li>
-              <li className='py-3 pl-3 '>{post.content[0].children[2].children[0].text}</li>
-              <li className='py-3 pl-3 '>{post.content[0].children[3].children[0].text}</li>
+              {post.content[0].children.map((contenido)=>{
+                  return contenido.children.map((contenidoLi,index)=>{
+                    return(<li key={`liInformacion-${index}`} className='py-2 pt-4'>{contenidoLi.text}</li>)
+                  })
+                })}
             </ul>
             </ul>
           </div>

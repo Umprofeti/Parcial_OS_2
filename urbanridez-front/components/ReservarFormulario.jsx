@@ -2,21 +2,33 @@
 import React, { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client';
 import Image from 'next/image';
-import useSWR from 'swr';
 
-
-/* 
- ! Insertar la fecha: createdAt: "2023-11-12T21:04:25.871Z"- Fecha en formato ISO 8601
-*/
 const ADD_SHOP = gql`
   mutation AddShop($Name: String!, $Email: String!, $Car: String!) {
     createCompra(data: {Name: $Name, Email: $Email, status: in_process, Car: $Car}, draft: true) {
+      id
       Name
       Email
       status
       Car{
-        id:id
+        id
+        title
+        ImagenCarro{
+          id
+          filename
+          url
+        }
       }
+      createdAt
+    }
+  }
+`;
+
+const UPDATE_STOCK = gql`
+
+  mutation UpdateStock($id: String! , $Stock:Float!){
+    updatePost(id:$id, autosave:true, data:{Stock:$Stock},draft:true){
+      Stock
     }
   }
 `;
@@ -24,7 +36,9 @@ const ADD_SHOP = gql`
 
 
 
-export default function ReservarFormulario({cambiarVisibilidadFormulario, visibilidadFormulario, disponibilidad, datoAuto}) {
+
+
+export default function ReservarFormulario({cambiarVisibilidadFormulario, visibilidadFormulario, datoAuto, cambiarControlRecibo, controlRecibo, cambiarInformacionRecibo}) {
   
   
   
@@ -32,11 +46,21 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
   const [apellidoUsuario, cambiarApellidoUsuario]= useState("");
   const [correoUsuario, cambiarCorreoUsuario]= useState("");
   const idAutoEnviar = datoAuto.idpost;
-  const status = "in_process";
   const [addShop, { data, loading, error }] = useMutation(ADD_SHOP);
-  
+  const [updateStock, { data:dataStock, loading:loadingStock, error:errorStock }] = useMutation(UPDATE_STOCK);
 
-  // console.log(datoAuto.idpost)
+  useEffect(()=>{
+    if(  data && dataStock){
+      alert("entregado")
+      console.log(data)
+      cambiarVisibilidadFormulario(!visibilidadFormulario)
+      cambiarNombreUsuario("");
+      cambiarApellidoUsuario("");
+      cambiarCorreoUsuario("");
+      cambiarControlRecibo(!controlRecibo)
+      cambiarInformacionRecibo(data.createCompra.id)
+    }
+  },[data, dataStock])
 
   const onChange =(e)=>{
     if(e.target.name === "nombreCliente"){
@@ -48,15 +72,40 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
       cambiarCorreoUsuario(e.target.value)
     }
   }
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e)=>{
     e.preventDefault();
     let nombreCompleto = nombreUsuario+" "+apellidoUsuario
+    try {
+      await addShop({
+        variables: {
+          Name: nombreCompleto,
+          Email: correoUsuario,
+          Car: idAutoEnviar,
+        },
+      });
+  
+      await updateStock({
+        variables: {
+          id: idAutoEnviar,
+          Stock: datoAuto.stock - 1,
+        },
+      });
+
+    } catch (error) {
+      console.error("Error en la operación:", error);
+
+    }
     addShop({variables:{
       Name: nombreCompleto,
       Email: correoUsuario,
       Car: idAutoEnviar
     }})
-    
+    updateStock({
+      variables: {
+        id: idAutoEnviar,
+        Stock: datoAuto.stock - 1,
+      },
+    });
   }
 
 
@@ -69,15 +118,13 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
     };
     return new Intl.NumberFormat('en-US', opciones).format(valor);
   }
-
-
   return (
-    <div className={`absolute h-screen w-full contenedorFormulario top-0 z-10 px-2 ${visibilidadFormulario? 'block':'hidden'} sm:px-16`}>
-      <div className='w-4/5 bg-slate-100 mx-auto p-10 rounded-xl shadow-lg'>
+    <div className={`absolute h-screen w-full contenedorFormulario top-0 z-10 ${visibilidadFormulario? 'block':'hidden'} px-4  sm:px-16 sm:fixed`}>
+      <div className='w-full sm:w-4/5 bg-slate-100 mx-0  sm:mx-auto p-4 sm:p-10 rounded-xl '>
         <form onSubmit={handleSubmit}>
         <h2 className='text-center text-xl font-semibold'>Datos de la compra</h2>
-          <div className='grid grid-cols-2 gap-3'>
-            <div className='w-full'>
+          <div className='block sm:grid grid-cols-2 gap-3'>
+            <div className='w-full '>
               <div className='py-1 pr-10'>
                 <label forhtml='nombreUsuarioR' className='block'>Nombre</label>
                 <input type='text' placeholder='Ingrese su nombre' id='nombreUsuarioR' className='px-2 py-1 shadow-md rounded ring-2 ring-zinc-500 w-full ' required
@@ -127,14 +174,15 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
               </div>
 
             </div>
-            <div>
+            <div className=''>
               <div className=''>
                 <h2 className='py-4'>Modelo del auto: <span className='font-semibold'>{datoAuto.modelo}</span></h2>
-                <Image src={datoAuto.imagenesCarro[0].imgAuto} width={720} height={480} alt={datoAuto.imagenesCarro[0].altAuto} className='w-full ring-2 ring-zinc-500 aspect-video'/>
+                <Image src={datoAuto.imgAuto} width={720} height={480} alt={datoAuto.altAuto} className='w-full ring-2 ring-zinc-500 aspect-video'/>
                 <p className='mt-1'>Precio: <span className='font-semibold'>{formateoDinero(datoAuto.precio)}</span></p>
                 <div className='w-full flex'>
-                <button className='bg-red-600 text-white p-2 mt-2 rounded hover:bg-red-800 transition duration-200' onClick={()=>{cambiarVisibilidadFormulario(!visibilidadFormulario)}} type='button'>Cancelar compra</button>
-                <button className='bg-blue-600 text-white p-2 mt-2 rounded hover:bg-blue-800 transition duration-200 ml-3' type='submit'>Completar compra</button>
+                <button className='bg-red-600 text-white p-2 mt-2 rounded hover:bg-red-800 transition duration-200 text-sm md:text-lg' onClick={()=>{cambiarVisibilidadFormulario(!visibilidadFormulario)}} type='button'>Cancelar compra</button>
+                <button className='bg-blue-600 text-white p-2 mt-2 rounded hover:bg-blue-800 transition duration-200 ml-3 text-sm md:text-lg' type='submit'
+                >Completar compra</button>
               </div>
               </div>
             </div>

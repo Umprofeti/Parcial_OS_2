@@ -62,7 +62,7 @@ body{
 .contenedorFormulario{
     padding-top: 5.5rem;
     background-color: rgba(0, 0, 0, 0.4); /* Color de fondo con transparencia */
-    position: fixed;
+    /* position: fixed; */
 }
 
 .transition-form {
@@ -72,4 +72,41 @@ body{
 
   .visible {
     opacity: 1;
+  }
+
+  .fondoDragado{
+    background-color: #83080a;
+    background-image: linear-gradient(32deg, #83080a 17%, #871717 27%, #000000 100%);
+  }
+  .fondoOscuro{
+    background-color: rgba(0, 0, 0, 0.7); /* Color de fondo con transparencia */
+  }
+  .bordeInferior{
+    border-bottom: 1px solid black;
+
+  }
+  .animacionInicioMensaje{
+    top: -10;
+    animation: slideIn .8s ease-in-out forwards;
+  }
+
+  .animacionSalidaMensaje{
+    top: -10;
+    animation: slideOut .8s ease-in-out forwards;
+  }
+  @keyframes slideIn {
+    0% {
+      top: -10rem;
+    }
+    100% {
+      top: 1rem;
+    }
+  }
+  @keyframes slideOut {
+    0% {
+      top: 1rem;
+    }
+    100% {
+      top: -10rem;
+    }
   }

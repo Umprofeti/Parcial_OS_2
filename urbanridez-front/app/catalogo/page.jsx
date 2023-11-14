@@ -4,6 +4,7 @@ import Image from 'next/image'
 import AutosCards from '@/components/AutosCards';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { gql } from '@apollo/client'
+import Link from 'next/link';
 
 
 const query2 = gql`
@@ -38,6 +39,7 @@ export default function CatalogoPage() {
   if(error){ return(<p>Error</p>)}
   const [cantidadAMostrar, cambiarCantidadAMostrar] = useState(6);
   const [filtroClase, setFiltroClase] = useState(null);
+  const [posicionBanner, cambiarPosicionBanner]= useState(10);
  
   const cargarMas = () => {
     cambiarCantidadAMostrar(cantidadAMostrar + 3); 
@@ -48,15 +50,31 @@ export default function CatalogoPage() {
     }
   }, [data]);
 
-
+  const autoBanner = () => {
+    for (let i = 0; i < data.Posts.docs.length; i++) {
+      for (let e = 0; e < data.Posts.docs[i].tags.length; e++) {
+        if (data.Posts.docs[i].tags[e].name === "bannercatalogo") {
+          cambiarPosicionBanner(i);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    autoBanner();
+  }, []);
 
   return (
     <>
       <div>
         <div className='relative contenedorBanner bg-zinc-900 overflow-hidden'>
-          <Image priority src={data.Posts.docs[0].ImagenCarro.url } width={1280} height={720} alt='mustang banner' className={`absolute inset-0 object-cover object-left mt-10 w-full h-full  `} />
+
+          <Image priority src={data.Posts.docs[posicionBanner].ImagenCarro.url} width={1280} height={720} alt={data.Posts.docs[posicionBanner].ImagenCarro.filename} className={`absolute inset-0 object-cover object-left  w-full h-full  `} />
           <div className=' absolute inset-0 flex '>
-          <span className='text-neutral-50 textShadowBanner text-xl sm:text-2xl md:text-4xl font-bold uppercase mt-32 ml-10 transition-opacity duration-500'>{data.Posts.docs[0].title}</span>
+            <div className='mt-20 sm:mt-32 ml-5 ms:ml-10'>
+              <span className='text-neutral-50 textShadowBanner text-xl sm:text-2xl md:text-4xl font-bold uppercase   transition-opacity duration-500'>{data.Posts.docs[posicionBanner].title}</span>
+              <span className='hidden md:block w-3/5 text-white textShadowBanner text-lg py-2'>Este modelo llega para cautivar a todos. Su amplia gama de tecnologías te entregarán la conectividad y seguridad que siempre quisiste.</span>
+              <Link href={`/reservar/${data.Posts.docs[posicionBanner].id}`} className='block w-40 sm:w-52 text-white py-2 bg-red-700 px-0 text-center sm:px-10 font-semibold rounded-lg'>Conocer más</Link>
+            </div>
           </div>
         </div>
       </div>

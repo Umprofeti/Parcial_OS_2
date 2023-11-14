@@ -5,7 +5,7 @@ import Link from 'next/link'
 export default function NavBar() {
     const [abrirMenu, cambiarAbrirMenu] = useState(false);
   return (
-    <nav className='flex navColor p-5 flex-wrap fixed w-full top-0 z-50'>
+    <nav className='flex navColor p-5 flex-wrap fixed w-full top-0 z-20'>
         <div className='text-white flex-1'>
             <Link className='uppercase font-bol text-xl tracking-tight text-red-500:hover' href={'/'}>Urbanridez</Link>
         </div>
@@ -16,13 +16,13 @@ export default function NavBar() {
         </div>
         <div id='menu' className={`w-full block lg:flex lg:items-center lg:w-auto ${abrirMenu ? 'opacity-100' : 'opacity-0 hidden'} sm:opacity-100`}>
             <div className="text-sm lg:flex-grow text-white text-center uppercase ">
-                <Link href="/" className="block mt-4 lg:inline-block lg:mt-0 hover:text-red-700 px-2 active:text-red-700">
+                <Link href="/" className="block mt-4 lg:inline-block lg:mt-0 transition-colors duration-200 hover:text-red-700 px-2 active:text-red-700 font-semibold tracking-wide text-zinc-200">
                     Inicio
                 </Link>
-                <Link href="/catalogo" className="block mt-4 lg:inline-block lg:mt-0 hover:text-red-700 px-2 active:text-red-700">
+                <Link href="/catalogo" className="block mt-4 lg:inline-block lg:mt-0 transition-colors duration-200 hover:text-red-700 px-2 active:text-red-700 font-semibold tracking-wide text-zinc-200">
                     Catalogo
                 </Link>
-                <Link href="/contacto" className="block mt-4 lg:inline-block lg:mt-0 hover:text-red-700 px-2 active:text-red-700">
+                <Link href="/contacto" className="block mt-4 lg:inline-block lg:mt-0 transition-colors duration-200 hover:text-red-700 px-2 active:text-red-700 font-semibold tracking-wide text-zinc-200">
                     Contacto
                 </Link>
             </div>
