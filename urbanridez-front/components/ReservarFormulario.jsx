@@ -38,7 +38,7 @@ const UPDATE_STOCK = gql`
 
 
 
-export default function ReservarFormulario({cambiarVisibilidadFormulario, visibilidadFormulario, datoAuto, cambiarControlRecibo, controlRecibo, cambiarInformacionRecibo}) {
+export default function ReservarFormulario({cambiarVisibilidadFormulario, visibilidadFormulario, datoAuto, cambiarControlRecibo, controlRecibo, cambiarInformacionRecibo, cambiarVisibilidadMensaje}) {
   
   
   
@@ -51,8 +51,9 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
 
   useEffect(()=>{
     if(  data && dataStock){
-      alert("entregado")
-      console.log(data)
+      // alert("Se ha recibido la compra")
+      // console.log(data)
+      cambiarVisibilidadMensaje({"mostrar":true,"mensaje":"Se ha recibido la compra, generando recibo...", "error":false})
       cambiarVisibilidadFormulario(!visibilidadFormulario)
       cambiarNombreUsuario("");
       cambiarApellidoUsuario("");
@@ -61,6 +62,7 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
       cambiarInformacionRecibo(data.createCompra.id)
     }
   },[data, dataStock])
+
 
   const onChange =(e)=>{
     if(e.target.name === "nombreCliente"){
@@ -75,6 +77,7 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
   const handleSubmit = async (e)=>{
     e.preventDefault();
     let nombreCompleto = nombreUsuario+" "+apellidoUsuario
+  
     try {
       await addShop({
         variables: {
@@ -82,30 +85,17 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
           Email: correoUsuario,
           Car: idAutoEnviar,
         },
-      });
-  
+      });  
       await updateStock({
         variables: {
           id: idAutoEnviar,
           Stock: datoAuto.stock - 1,
         },
       });
-
     } catch (error) {
       console.error("Error en la operación:", error);
 
     }
-    addShop({variables:{
-      Name: nombreCompleto,
-      Email: correoUsuario,
-      Car: idAutoEnviar
-    }})
-    updateStock({
-      variables: {
-        id: idAutoEnviar,
-        Stock: datoAuto.stock - 1,
-      },
-    });
   }
 
 
@@ -123,7 +113,7 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
       <div className='w-full sm:w-4/5 bg-slate-100 mx-0  sm:mx-auto p-4 sm:p-10 rounded-xl '>
         <form onSubmit={handleSubmit}>
         <h2 className='text-center text-xl font-semibold'>Datos de la compra</h2>
-          <div className='block sm:grid grid-cols-2 gap-3'>
+          <div className='block sm:grid lg:grid-cols-2 gap-3'>
             <div className='w-full '>
               <div className='py-1 pr-10'>
                 <label forhtml='nombreUsuarioR' className='block'>Nombre</label>
@@ -182,7 +172,7 @@ export default function ReservarFormulario({cambiarVisibilidadFormulario, visibi
                 <div className='w-full flex'>
                 <button className='bg-red-600 text-white p-2 mt-2 rounded hover:bg-red-800 transition duration-200 text-sm md:text-lg' onClick={()=>{cambiarVisibilidadFormulario(!visibilidadFormulario)}} type='button'>Cancelar compra</button>
                 <button className='bg-blue-600 text-white p-2 mt-2 rounded hover:bg-blue-800 transition duration-200 ml-3 text-sm md:text-lg' type='submit'
-                >Completar compra</button>
+                >Completar compra</button> 
               </div>
               </div>
             </div>

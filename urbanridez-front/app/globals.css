@@ -87,26 +87,33 @@ body{
   }
   .animacionInicioMensaje{
     top: -10;
-    animation: slideIn .8s ease-in-out forwards;
+    animation: slideIn 1s ease-in-out forwards;
   }
 
   .animacionSalidaMensaje{
-    top: -10;
-    animation: slideOut .8s ease-in-out forwards;
+    top: 1rem;
+    animation: slideOut 1s ease-in-out forwards;
   }
   @keyframes slideIn {
     0% {
+      opacity: 0;
       top: -10rem;
     }
     100% {
+      opacity: 1;
       top: 1rem;
     }
   }
   @keyframes slideOut {
     0% {
+      opacity: 1;
       top: 1rem;
     }
+    50%{
+      opacity:.5;
+    }
     100% {
+      opacity: 0;
       top: -10rem;
     }
   }

@@ -8,6 +8,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ReservarFormulario from '@/components/ReservarFormulario'
 import ReciboCompra from '@/components/ReciboCompra'
+import MensajeAlerta from '@/components/MensajeAlerta'
 
 function cargarItemCarro (id){
   const queryReserva = gql`
@@ -71,6 +72,7 @@ export default function ReservarPage() {
   const [visibilidadRecibo, cambiarVisibilidadRecibo] = useState(false);
   const [controlRecibo, cambiarControlRecibo] = useState(false);
   const [informacionRecibo, cambiarInformacionRecibo] = useState("")
+  const [visibilidadMensaje, cambiarVisibilidadMensaje]=useState({"mostrar":false,"mensaje":"", "error":false});
 
 
   const datosCarro = [{
@@ -83,13 +85,18 @@ export default function ReservarPage() {
     "altAuto": data.Posts.docs[0].ImagenCarro.filename,
     "idAuto": data.Posts.docs[0].ImagenCarro.id
   }];
+  useEffect(()=>{
+    const pausaMensajeReset = setTimeout(() => {
+      cambiarVisibilidadMensaje({"mostrar":false,"mensaje":"", "error":false})
+    }, 3000);
+    return () => clearTimeout(pausaMensajeReset);
+  }),[visibilidadMensaje]
   
   useEffect(() => {
     if (controlRecibo) {
       // Esperar 3 segundos antes de llamar a iniciarServicioRecibo
       const pausaCarga = setTimeout(() => {
         iniciarServicioRecibo();
-        console.log("aaaa: "+informacionRecibo)
       }, 3000);
   
       // Limpiar el temporizador si controlRecibo cambia antes de que se cumplan los 3 segundos
@@ -105,7 +112,7 @@ export default function ReservarPage() {
     if(datosCarro[0].stock>0){
       cambiarVisibilidadFormulario(!visibilidadFormulario)
     }else{
-      alert("No existe más autos disponibles, por favor mantengase atento a nuestras redes sociales")
+      cambiarVisibilidadMensaje({"mostrar":true, "mensaje":"No existe más autos disponibles, reintentelo más tarde","error":true})
     }
   }
   
@@ -120,9 +127,9 @@ export default function ReservarPage() {
   }
   const precioFormateado = formateoDinero(datosCarro[0].precio);
 return (
-    <div className='relative w-full contenedorReserva grid grid-cols-1 sm:grid-cols-2 px-5 '>
-      <div>
-        <Carousel responsive={responsive} infinite={true} className='mt-5 rounded shadow-2xl border border-gray-800 z-0' >
+    <div className='relative w-full contenedorReserva grid grid-cols-1 lg:grid-cols-2 px-5 '>
+      <div className='px-16'>
+        <Carousel responsive={responsive} infinite={true} className='mt-16 lg:mt-5 rounded shadow-2xl border border-gray-800 z-0' >
         {data.Posts.docs.map((post) => {
           return post.Carrusel.map((imagen, index) => (
             <div key={index}>
@@ -167,11 +174,14 @@ return (
         cambiarControlRecibo={cambiarControlRecibo}
         controlRecibo={controlRecibo}
         cambiarInformacionRecibo={cambiarInformacionRecibo}
+        cambiarVisibilidadMensaje={cambiarVisibilidadMensaje}
+        visibilidadMensaje={visibilidadMensaje}
          />
-        {visibilidadRecibo?<ReciboCompra 
+      {visibilidadRecibo?<ReciboCompra 
       visibilidadRecibo={visibilidadRecibo} 
       cambiarVisibilidadRecibo={cambiarVisibilidadRecibo}
       informacionRecibo={informacionRecibo}/>:""}
+      {visibilidadMensaje.mostrar?<MensajeAlerta visibilidadMensaje={visibilidadMensaje.mensaje} error={visibilidadMensaje.error} cambiarVisibilidadMensaje={cambiarVisibilidadMensaje}/> :""}
     </div>
   )
 }

@@ -122,6 +122,7 @@ export default function CatalogoPage() {
           <span> ------------</span>
         </>
         )}
+
       </div>
     </>
   )
