@@ -1,0 +1,20 @@
+{
+  "name": "desktop_app_cms",
+  "version": "1.0.0",
+  "description": "Aplicacion de prueba para traer un cms servidor en un puerto",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "electron",
+    "desktop",
+    "reactjs"
+  ],
+  "author": "Skiatel",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^27.1.0"
+  }
+}
